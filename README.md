@@ -1,0 +1,2 @@
+# configmagick
+manipulate config files
