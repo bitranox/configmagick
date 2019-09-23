@@ -14,7 +14,7 @@ class Config(object):
 def main(sys_argv: List[str] = sys.argv[1:]) -> None:
 
     try:
-        lib_log_utils.setup_console_logger()
+        lib_log_utils.add_stream_handler()
 
 
 
