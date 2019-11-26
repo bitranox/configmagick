@@ -18,7 +18,6 @@ class GrammarBase(object):
     grammar = arp.ParsingExpression()
     whitespace = '\t '
 
-    @staticmethod
     class Visitor(arp.PTNodeVisitor):
         pass
 
@@ -137,7 +136,7 @@ class GrammarBasic(GrammarBase):
         return arp.Sequence(GrammarBasic.key, '=', GrammarBasic.single_value, arp.Optional(GrammarBasic.comment_shell))
 
     @staticmethod
-    class Visitor(arp.PTNodeVisitor):
+    class Visitor(GrammarBase.Visitor):
         def visit_double_quoted_string(self, node, children):
             value = GrammarBasic.DoubleQuotedString(children[1:-1])
             return value
