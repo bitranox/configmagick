@@ -1,4 +1,8 @@
+# stdlib
 import pathlib
+
+# proj
+from .configmagick import *
 
 
 def get_version() -> str:
