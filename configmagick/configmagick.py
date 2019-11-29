@@ -1,5 +1,6 @@
 # STDLIB
 import errno
+import fire
 import sys
 from typing import List
 
