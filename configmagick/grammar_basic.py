@@ -155,8 +155,6 @@ class GrammarBasic(GrammarBase):
     def key():
         return GrammarBasic.maybe_quoted_word
 
-
-
     @staticmethod
     def single_value():
         return GrammarBasic.maybe_quoted_word
