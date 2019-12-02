@@ -6,11 +6,10 @@ export NO_AT_BRIDGE=1  # get rid of (ssh-askpass:25930): dbind-WARNING **: 18:46
 
 # shellcheck disable=SC2164  # no check if cd fails
 own_dir="$( cd "$(dirname "${BASH_SOURCE[0]}")" ; pwd -P )"  # this gives the full path, even for sourced scripts
-pytest_root_dir="$(dirname "${own_dir}")"                      # one level up
+pytest_root_dir="$(dirname "${own_dir}")"                   # one level up
+projects_dir="$(dirname "${pytest_root_dir}")"              # one level up
 sleeptime_on_error=5
-echo "Pytest Root Dir: ${pytest_root_dir}"
-export PATH="${pytest_root_dir}":"${PATH}"
-
+export PYTHONPATH="${projects_dir}":"${PYTHONPATH}"
 
 function install_or_update_lib_bash {
     if [[ ! -f /usr/local/lib_bash/install_or_update.sh ]]; then
@@ -50,9 +49,9 @@ function pytest_loop {
     sleeptime_on_error="${1}"
     pytest_root_dir="${2}"
 
-    echo "pytest_root_dir: ${pytest_root_dir}"
-
     while true; do
+        echo "Pytest Root Dir: ${pytest_root_dir}"
+        echo "Projects Root Dir: ${projects_dir}"
 
         clr_green "*** PYTEST **************************************************************************************"
         python3 -m pytest "${pytest_root_dir}" --disable-warnings
