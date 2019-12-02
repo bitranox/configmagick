@@ -2,12 +2,7 @@
 import arpeggio
 
 # PROJ
-try:
-    # imports for local pytest
-    from . import lib_parse_helpers       # type: ignore # pragma: no cover
-except ImportError:                       # type: ignore # pragma: no cover
-    # imports for doctest
-    import lib_parse_helpers              # type: ignore # pragma: no cover
+from . import lib_parse_helpers
 
 
 class ComposeString(str):
@@ -22,7 +17,7 @@ class ComposeList(list):
 
 
 class GrammarBase(object):
-    grammar = arpeggio.ParsingExpression()
+    grammar: arpeggio.ParsingExpression = None
     whitespace = '\t '
 
     class Visitor(arpeggio.PTNodeVisitor):
@@ -38,18 +33,18 @@ class GrammarBasic(GrammarBase):
     >>> parser = arpeggio.ParserPython(GrammarBasic().newline, ws='\t ')
     >>> assert parser.parse('\\n') == '\\n'
 
-    """
-    '''
     >>> # double_quoted_string
     >>> parser = arpeggio.ParserPython(GrammarBasic.double_quoted_string)
     >>> assert parser.parse('"double quoted"') == '"double quoted"'
-    >>> assert parser.parse('"double \\" quoted"') == '"double " quoted"'
+    >>> assert parser.parse('"double \\\\" quoted"') == '"double \\\\" quoted"'
+    >>> assert parser.parse('"double " " quoted"') == '"double "'
     >>> assert parser.parse('"   test12{öäüß€}.!§$%&/\\()[]{}?*+-_~<>°^"') == '"   test12{öäüß€}.!§$%&/\\()[]{}?*+-_~<>°^"'
 
     >>> # single_quoted_string
     >>> parser = arpeggio.ParserPython(GrammarBasic.single_quoted_string)
     >>> assert parser.parse("'single quoted'") == "'single quoted'"
-    >>> assert parser.parse("'single \\' quoted'") == "'single ' quoted'"
+    >>> assert parser.parse("'single \\\\' quoted'") == "'single \\\\' quoted'"
+    >>> assert parser.parse("'single ' ' quoted'") == "'single '"
     >>> assert parser.parse("'   test12{öäüß€}.!§$%&/\\()[]{}?*+-_~<>°^'") == "'   test12{öäüß€}.!§$%&/\\()[]{}?*+-_~<>°^'"
 
     >>> # unicode_string
@@ -89,20 +84,18 @@ class GrammarBasic(GrammarBase):
     >>> assert str(parser.parse('"key double quoted"')) == '"key double quoted"'
     >>> assert str(parser.parse('"key double quoted" asdf')) == '"key double quoted"'
 
+    """
 
-    '''
-
-
-    def newline(self):
+    @staticmethod
+    def newline():
         return arpeggio.RegExMatch(r"\n")
-
 
     class Newline(ComposeString):
         pass
 
     @staticmethod
     def double_quoted_string():
-        return arpeggio.RegExMatch(r"\".*\"")
+        return arpeggio.RegExMatch(r'''("[^"\\]*(?:\\.[^"\\]*)*")''')
 
     class DoubleQuotedString(ComposeString):
         def arpeggio_compose(self):
@@ -110,7 +103,7 @@ class GrammarBasic(GrammarBase):
 
     @staticmethod
     def single_quoted_string():
-        return arpeggio.RegExMatch(r"\'.*\'")
+        return arpeggio.RegExMatch(r'''(?s)('[^'\\]*(?:\\.[^'\\]*)*')''')
 
     class SingleQuotedString(ComposeString):
         def arpeggio_compose(self):

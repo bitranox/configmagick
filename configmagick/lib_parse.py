@@ -9,14 +9,8 @@ import arpeggio as arp
 import lib_path
 
 # PROJ
-try:
-    # imports for local pytest
-    from . import lib_parse_helpers       # type: ignore # pragma: no cover
-    from . import grammar_basic           # type: ignore # pragma: no cover
-except ImportError:                       # type: ignore # pragma: no cover
-    # imports for doctest
-    import lib_parse_helpers              # type: ignore # pragma: no cover
-    import grammar_basic                  # type: ignore # pragma: no cover
+from . import lib_parse_helpers       # type: ignore # pragma: no cover
+from . import grammar_basic           # type: ignore # pragma: no cover
 
 
 def get_file_semantic(path_file: Union[str, pathlib.Path], grammar: grammar_basic.GrammarBase):
