@@ -78,7 +78,7 @@ class GrammarBasic(GrammarBase):
             'single_assignment_key | = | single_assignment_value | # single_assignment_comment # comment2'
 
     >>> # Key
-    >>> parser = arpeggio.ParserPython(GrammarBasic.key)
+    >>> parser = arpeggio.ParserPython(GrammarBasic.full_key)
     >>> assert str(parser.parse('key_unicode_string')) == 'key_unicode_string'
     >>> assert str(parser.parse("'key single quoted'")) == "'key single quoted'"
     >>> assert str(parser.parse('"key double quoted"')) == '"key double quoted"'
