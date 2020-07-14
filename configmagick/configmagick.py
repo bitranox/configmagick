@@ -14,7 +14,7 @@ class Config(object):
 def main(sys_argv: List[str] = sys.argv[1:]) -> None:
 
     try:
-        lib_log_utils.add_stream_handler_color()
+        lib_log_utils.log_handlers.add_stream_handler_color()
 
     except FileNotFoundError:
         # see https://www.thegeekstuff.com/2010/10/linux-error-codes for error codes
