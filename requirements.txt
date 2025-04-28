@@ -15,3 +15,4 @@ Arpeggio
 fire
 lib_log_utils @ git+https://github.com/bitranox/lib_log_utils.git
 lib_path @ git+https://github.com/bitranox/lib_path.git
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
