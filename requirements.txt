@@ -15,3 +15,4 @@ Arpeggio
 fire
 lib_log_utils @ git+https://github.com/bitranox/lib_log_utils.git
 lib_path @ git+https://github.com/bitranox/lib_path.git
+filelock>=3.20.3 # not directly required, pinned by Snyk to avoid a vulnerability
